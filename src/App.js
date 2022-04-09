@@ -11,11 +11,13 @@ const App = () => {
 
     const [movies, setMovies] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [loader, setLoader] = useState(false);
 
     const searchMovies = async(query) => {
+        setLoader(true);
         const response = await fetch(`${API_URL}&s=${query}`);
         const data = await response.json();
-        console.log(data);
+        setLoader(false);
         setMovies(data.Search);
     }
 
@@ -30,7 +32,18 @@ const App = () => {
         <div>
             <Header value={searchQuery} onSearchChange={setSearchQuery} onSearchClick={() => searchMovies(searchQuery)}/> 
             <Hero />
-            <MovieCardWrapper>
+
+            {loader ? 
+                <div className="page-single">
+                    <div className="container">
+                        <div className="row ipad-width">
+                            <div className="col-md-12">
+                                   <center><img src="images/fancybox_loading.gif"/></center> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                : (<MovieCardWrapper>
                 {
                     movies?.length > 0 
                     ?
@@ -42,7 +55,7 @@ const App = () => {
                         </div>
                     )
                 }
-            </MovieCardWrapper>
+            </MovieCardWrapper>)}
         </div>
     );
 }
