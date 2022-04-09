@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = () => {
+const Header = ({value, onSearchChange, onSearchClick}) => {
     return (
         <>
             <header className="ht-header">
@@ -20,7 +20,8 @@ const Header = () => {
                     </nav>
 
                     <div className="top-search">
-                        <input type="text" placeholder="Search for a movie" />
+                        <input type="text" placeholder="Search for a movie" value={value} onChange={(e) => onSearchChange(e.target.value)}/>
+                        <button onClick={onSearchClick}>Search</button>
                     </div>
                 </div>
             </header>
